@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using tyuiu.cources.programming.interfaces.Sprint6;
 
 namespace Tyuiu.YakimukVV.Sprint6.Task5.V19.Lib
@@ -10,21 +11,32 @@ namespace Tyuiu.YakimukVV.Sprint6.Task5.V19.Lib
     {
         public double[] LoadFromDataFile(string path)
         {
-            if (!File.Exists(path))
-                throw new FileNotFoundException($"File not found at path: {path}");
-
-            var lines = File.ReadAllLines(path);
-            var data = new List<double>();
-
-            foreach (var line in lines)
+            try
             {
-                if (double.TryParse(line, NumberStyles.Any, CultureInfo.InvariantCulture, out var value))
-                {
-                    data.Add(Math.Round(value, 3));
-                }
-            }
+                var lines = File.ReadAllLines(path);
+                var result = new List<double>();
 
-            return data.ToArray();
+                foreach (var line in lines)
+                {
+                    if (double.TryParse(line, NumberStyles.Float, CultureInfo.InvariantCulture, out double number))
+                    {
+                        if (number % 1 == 0)
+                        {
+                            result.Add(number);
+                        }
+                        else
+                        {
+                            result.Add(Math.Round(number, 3));
+                        }
+                    }
+                }
+
+                return result.ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Ошибка при загрузке данных из файла: {ex.Message}");
+            }
         }
     }
 }

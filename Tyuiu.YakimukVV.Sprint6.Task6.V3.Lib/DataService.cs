@@ -20,7 +20,7 @@ namespace Tyuiu.YakimukVV.Sprint6.Task6.V3.Lib
                 var content = File.ReadAllText(path);
                 var wordsWithR = content
                     .Split(new[] { ' ', '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Where(word => word.Contains('r') || word.Contains('R'))
+                    .Where(word => word.Contains('r') || word.Contains('r'))
                     .ToArray();
                 return string.Join(" ", wordsWithR);
             }
